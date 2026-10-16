@@ -4,31 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avicii - Skapa din egen ranking</title>
-    <!-- Använder SortableJS för smidig dra-och-släpp -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #121212; 
-            color: #e0e0e0; 
+            font-family: 'Georgia', 'Times New Roman', serif; 
+            background-color: #0b111e; 
+            color: #f0f0f0; 
             padding: 20px;
             margin: 0;
         }
-        h1, h2 { 
+        h1 { 
             text-align: center; 
-        }
-        h1 {
+            letter-spacing: 4px;
+            text-transform: uppercase;
             color: #ffffff;
             margin-bottom: 5px;
         }
         p.subtitle {
             text-align: center;
-            color: #a0a0a0;
-            margin-bottom: 30px;
+            color: #a0b2c6;
+            margin-bottom: 25px;
+            font-family: sans-serif;
+            font-size: 0.95em;
         }
         .container { 
-            max-width: 800px; 
+            max-width: 850px; 
             margin: 0 auto; 
+        }
+        .actions-bar {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        button.btn {
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.15s, opacity 0.2s;
+            font-family: sans-serif;
+        }
+        button.btn:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #e5b95f, #c29336);
+            color: #121212;
+        }
+        .btn-dark {
+            background: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid #334155;
         }
         .list-group { 
             list-style-type: none; 
@@ -36,109 +67,255 @@
             margin: 0;
         }
         .list-group-item { 
-            background-color: #242424; 
-            margin-bottom: 8px; 
-            padding: 15px 20px; 
-            border-radius: 8px; 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(4px);
+            margin-bottom: 6px; 
+            padding: 12px 18px; 
+            border-radius: 6px; 
             cursor: grab; 
             display: flex; 
             align-items: center; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background-color 0.2s, transform 0.2s;
-            border: 1px solid #333;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Georgia', serif;
+            transition: background-color 0.2s;
         }
         .list-group-item:hover {
-            background-color: #2a2a2a;
+            background: rgba(255, 255, 255, 0.1);
         }
         .list-group-item:active { 
             cursor: grabbing; 
         }
         .list-group-item.sortable-ghost {
-            opacity: 0.4;
-            background-color: #1db954;
+            opacity: 0.3;
+            background-color: #d4af37;
         }
         .rank-number { 
             font-weight: bold; 
-            margin-right: 20px; 
-            color: #1db954; 
-            width: 35px;
+            margin-right: 15px; 
+            color: #c9a050; 
+            width: 40px;
             font-size: 1.1em;
         }
         .track-name {
             font-size: 1.05em;
-            font-weight: 500;
         }
-        .export-btn {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 30px auto;
-            padding: 15px;
-            background-color: #1db954;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.2s;
+        /* Modal för att visa genererad bild */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .export-btn:hover {
-            background-color: #1ed760;
+        .modal img {
+            max-height: 80vh;
+            max-width: 90vw;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .modal-buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 15px;
+        }
+        canvas {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Avicii Låtranking</h1>
-        <p class="subtitle">Dra och släpp låtarna för att ändra deras ordning. Din absoluta favorit ska ligga högst upp!</p>
-        
-        <ul id="rankList" class="list-group">
-            <li class="list-group-item"><span class="rank-number"></span><span class="track-name">I Could Be the One</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Wake Me Up</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">You Make Me</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Hey Brother</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Addicted to You</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Dear Boy</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Liar Liar</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Shame on Me</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Lay Me Down</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Hope There's Someone</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Heart Upon My Sleeve (Instrumental)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Always on the Run</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">All You Need Is Love</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Canyons</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">EDOM</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Long Road to Hell</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">The Nights</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">The Days</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Waiting for Love</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Talk to Myself</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Touch Me</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Ten More Days</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">For a Better Day</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Broken Arrows</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">True Believer</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">City Lights</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Pure Grinding</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Sunset Jesus</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Can't Catch Me</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Somewhere in Stockholm</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Trouble</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Gonna Love Ya</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Peace of Mind</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Heaven</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">SOS</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Tough Love</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Bad Reputation</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Ain't a Thing</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Hold the Line</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Freak</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Excuse Me Mr. Sir</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Heart Upon My Sleeve</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Never Leave Me</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Fades Away</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Friend of Mine</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Lonely Together</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">You Be Love</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Without You</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">What Would I Change It To</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">So Much Better (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Lazy Lace</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Sound of Now</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Muja</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Ryu</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Strutnut</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Even</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Break da Floor</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Alcoholic</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Bom</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Bromance</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Seek Bromance</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">My Feelings for You</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Insomnia</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Tweet It</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Malo</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Don't Hold Back</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Street Dancer</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Sweet Dreams</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Jailbait</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Snus</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Collateral Damage</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Blessed</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Fade Into Darkness</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Levels</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Sunshine</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Silhouettes</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Superlove</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Two Million</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Last Dance</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Dancing in My Head</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">X You</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">We Write the Story</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Speed (Burn & Lotus F1 Team Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Dar um Jeito (We Will Find a Way)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Feeling Good</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Taste the Feeling</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Back Where I Belong</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Forever Yours (Avicii Tribute)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Wake Me Up (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">You Make Me (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Hey Brother (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Addicted to You (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Dear Boy (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Liar Liar (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Shame on Me (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Lay Me Down (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Hope There's Someone (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">The Nights (Avicii by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">DJ Ralph - Born to Rave (Avicii vs Philgood Born to Do It Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Roger Sanchez feat. Terri B. - Bang That Box (Avicii vs Philgood Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Tiësto feat. CC Sheffield - Escape Me (Avicii Remix At Night)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Little Boots - Remedy (Avicii Club Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">EDX - Shy Shy (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Roman Salzger - Solaris (Avicii Greets Joia Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Greg Cerrone - Lipstick (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Sandro Monte & Albin Myers feat. Abigail Bailey - Somewhere (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">The Good Guys feat. Tesz Millan - Spotlight (Avicii Rising Star Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Nadia Ali - Rapture (Avicii New Generation Extended Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Bob Sinclar feat. Vybrate - New New New (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Robyn - Hang With Me (Avicii's Exclusive Club Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">David Guetta feat. Estelle - One Love (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Enrique Iglesias feat. Pitbull - I Like It (Avicii Club Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Toni Braxton - Make My Heart (Avicii's Replacer Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Phonat - Set Me Free (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Dim Chris & Sebastien Drums feat. Paulina - Sometimes I Feel (Avicii's Out of Miami Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Austin Leeds feat. Jeremy Carr - Can You Hear Me (In the Air) (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">HCCR, Jose Nunez, MYNC - Boogers (Avicii's Dumb Dumb Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Armin van Buuren feat. Laura V - Drowning (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Coldplay - Every Teardrop Is A Waterfall (Avicii 'Tour' Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Daft Punk - Derezzed (Remixed by Avicii)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Morten Breum - Everynight (Avicii Remix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Madonna - Girl Gone Wild (Avicii's UMF Mix)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Syn Cole - Miami 82 (Avicii Edit)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Major Lazer - Get Free (Avicii Edit)</span></li><li class="list-group-item"><span class="rank-number"></span><span class="track-name">Faithless - Insomnia 2.0 (Avicii Remix)</span></li>
-        </ul>
+        <p class="subtitle">Dra och släpp för att ordna listan. Skapa sedan en affisch för dina Topp 75.</p>
 
-        <button class="export-btn" onclick="exportList()">Spara min ranking som text</button>
+        <div class="actions-bar">
+            <button class="btn btn-gold" onclick="generatePoster()">Skapa Topp 75-affisch</button>
+            <button class="btn btn-dark" onclick="exportText()">Spara som text</button>
+        </div>
+        
+        <ul id="rankList" class="list-group"></ul>
     </div>
 
+    <!-- Förhandsvisning av affischen -->
+    <div id="imageModal" class="modal">
+        <img id="posterPreview" alt="Topp 75 Poster">
+        <div class="modal-buttons">
+            <a id="downloadLink" download="avicii_top_75.png" class="btn btn-gold" style="text-decoration: none; display: inline-block;">Ladda ner bild</a>
+            <button class="btn btn-dark" onclick="closeModal()">Stäng</button>
+        </div>
+    </div>
+
+    <canvas id="posterCanvas" width="1000" height="1500"></canvas>
+
     <script>
-        // Initiera dra-och-släpp
-        var el = document.getElementById('rankList');
-        var sortable = Sortable.create(el, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            onEnd: updateRanks // Uppdatera siffrorna när man släpper en låt
+        const initialTracks = [
+            "I Could Be the One", "Levels", "Dear Boy", "Waiting for Love", "Seek Bromance",
+            "Fade Into Darkness", "Silhouettes", "You Make Me", "Without You", "New New New",
+            "Girl Gone Wild", "Sunshine", "All You Need Is Love", "A Sky Full of Stars", "UMF",
+            "Blessed", "The Nights", "My Feelings for You", "Dancing in My Head", "Superlove",
+            "Sunset Jesus", "Beautiful Heartbeat", "For a Better Day", "Shame on Me", "Hey Brother",
+            "City Lights", "True Believer", "Broken Arrows", "Always on the Run", "Wake Me Up",
+            "Tough Love", "Rapture", "Back Where I Belong", "X You", "Last Dance",
+            "Fades Away", "Gonna Love Ya", "The Days", "Addicted to You", "Somewhere in Stockholm",
+            "Can't Catch Me", "Pure Grinding", "Lonely Together", "Heaven", "You Be Love",
+            "SOS", "Divine Sorrow", "Forever Yours", "Talk to Myself", "Liar Liar",
+            "Lay Me Down", "EDOM", "So Much Better", "Feeling Good", "Taste the Feeling",
+            "Speed", "Bad Reputation", "Peace of Mind", "Friend of Mine", "Trouble",
+            "Touch Me", "Ten More Days", "Hope There's Someone", "Heart Upon My Sleeve", "Canyons",
+            "Hold the Line", "Ain't a Thing", "Freak", "Excuse Me Mr Sir", "What Would I Change It To",
+            "Long Road to Hell", "Never Leave Me", "Derezzed", "Insomnia 2.0", "Miami 82"
+        ];
+
+        const listEl = document.getElementById('rankList');
+
+        // Rendera initial lista
+        initialTracks.forEach((track, index) => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = `<span class="rank-number">${index + 1}.</span><span class="track-name">${track}</span>`;
+            listEl.appendChild(li);
         });
 
-        // Funktion för att uppdatera siffrorna 1, 2, 3...
+        // Dra-och-släpp
+        Sortable.create(listEl, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: updateRanks
+        });
+
         function updateRanks() {
-            var items = el.getElementsByTagName('li');
-            for (var i = 0; i < items.length; i++) {
+            const items = listEl.getElementsByTagName('li');
+            for (let i = 0; i < items.length; i++) {
                 items[i].getElementsByClassName('rank-number')[0].innerText = (i + 1) + '.';
             }
         }
 
-        // Exportera listan för att spara den
-        function exportList() {
-            var items = el.getElementsByTagName('li');
-            var result = "Min Avicii Ranking:\n\n";
-            for (var i = 0; i < items.length; i++) {
-                var trackName = items[i].getElementsByClassName('track-name')[0].innerText;
-                result += (i + 1) + ". " + trackName + "\n";
+        function exportText() {
+            const items = listEl.getElementsByTagName('li');
+            let out = "Avicii Ranking:\\n\\n";
+            for (let i = 0; i < items.length; i++) {
+                out += `${i + 1}. ${items[i].getElementsByClassName('track-name')[0].innerText}\\n`;
             }
-            
-            // Ladda ner som textfil
-            var blob = new Blob([result], {type: "text/plain;charset=utf-8"});
-            var a = document.createElement("a");
+            const blob = new Blob([out], { type: "text/plain;charset=utf-8" });
+            const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = "min_avicii_ranking.txt";
-            document.body.appendChild(a);
+            a.download = "avicii_ranking.txt";
             a.click();
-            document.body.removeChild(a);
         }
 
-        // Kör vid start för att sätta siffrorna första gången
-        updateRanks();
+        // Rita och exportera affischen
+        function generatePoster() {
+            const canvas = document.getElementById('posterCanvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            // 1. Bakgrund: Solnedgång över vatten och berg
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, '#101e38');
+            grad.addColorStop(0.25, '#3b2f4c');
+            grad.addColorStop(0.45, '#c85e2b');
+            grad.addColorStop(0.6, '#e08b3c');
+            grad.addColorStop(0.75, '#162238');
+            grad.addColorStop(1, '#050811');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Mörk övertoning i mitten så texten syns bra
+            ctx.fillStyle = 'rgba(5, 10, 20, 0.72)';
+            ctx.fillRect(0, 360, w, 780);
+
+            // 2. Avicii-symbolen (trianglarna)
+            ctx.save();
+            ctx.fillStyle = '#ffffff';
+            ctx.globalAlpha = 0.9;
+            ctx.beginPath();
+            ctx.moveTo(480, 150); ctx.lineTo(320, 230); ctx.lineTo(480, 230); ctx.closePath(); ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(520, 150); ctx.lineTo(680, 150); ctx.lineTo(520, 230); ctx.closePath(); ctx.fill();
+            ctx.restore();
+
+            // 3. Rubrik: AVICII
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.font = 'bold 80px "Montserrat", "Arial Black", sans-serif';
+            ctx.letterSpacing = '14px';
+            ctx.fillText('AVICII', w / 2, 310);
+
+            // Underrubrik
+            ctx.font = '500 20px "Georgia", serif';
+            ctx.fillStyle = '#e8d5b5';
+            ctx.letterSpacing = '5px';
+            ctx.fillText('— MIN RANKING • 75 LÅTAR —', w / 2, 350);
+
+            // 4. Låtarna i 3 kolumner
+            const items = listEl.getElementsByTagName('li');
+            const songs = [];
+            for (let i = 0; i < Math.min(75, items.length); i++) {
+                songs.push(items[i].getElementsByClassName('track-name')[0].innerText);
+            }
+
+            const colX = [80, 390, 700];
+            const startY = 410;
+            const lineHeight = 28;
+
+            ctx.textAlign = 'left';
+            ctx.letterSpacing = '0px';
+
+            for (let col = 0; col < 3; col++) {
+                for (let row = 0; row < 25; row++) {
+                    const idx = col * 25 + row;
+                    if (idx >= songs.length) break;
+
+                    const num = idx + 1;
+                    const y = startY + (row * lineHeight);
+                    const x = colX[col];
+
+                    // Färgsätt Topp 3 med guld
+                    const isTop3 = num <= 3;
+                    const numColor = isTop3 ? '#f3c465' : '#c9d6df';
+                    const titleColor = isTop3 ? '#f3c465' : '#f8fafc';
+
+                    ctx.font = isTop3 ? 'bold 18px "Georgia", serif' : '16px "Georgia", serif';
+
+                    // Nummer
+                    ctx.fillStyle = numColor;
+                    ctx.fillText(`${num}.`, x, y);
+
+                    // Titel (korta ner om för lång)
+                    ctx.fillStyle = titleColor;
+                    let title = songs[idx];
+                    if (title.length > 24) title = title.substring(0, 22) + '...';
+                    ctx.fillText(title, x + 38, y);
+                }
+            }
+
+            // 5. Konsert-ljus längst ner
+            ctx.save();
+            ctx.globalAlpha = 0.4;
+            const beamGrad = ctx.createLinearGradient(0, 1200, 0, h);
+            beamGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
+            beamGrad.addColorStop(0.7, 'rgba(56, 189, 248, 0.4)');
+            beamGrad.addColorStop(1, '#050811');
+            ctx.fillStyle = beamGrad;
+            ctx.fillRect(0, 1150, w, 350);
+            ctx.restore();
+
+            // Visa bilden
+            const dataUrl = canvas.toDataURL('image/png');
+            document.getElementById('posterPreview').src = dataUrl;
+            document.getElementById('downloadLink').href = dataUrl;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
