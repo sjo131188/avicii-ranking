@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avicii - Skapa din egen ranking (Topp 50)</title>
+    <title>Avicii - Ranka dina Topp 50 låtar</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         body { 
@@ -24,11 +24,11 @@
             text-align: center;
             color: #a0b2c6;
             margin-bottom: 25px;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             font-size: 0.95em;
         }
         .container { 
-            max-width: 850px; 
+            max-width: 820px; 
             margin: 0 auto; 
         }
         .actions-bar {
@@ -37,6 +37,14 @@
             justify-content: center;
             margin-bottom: 25px;
             flex-wrap: wrap;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: rgba(11, 17, 30, 0.9);
+            padding: 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
         }
         button.btn {
             padding: 12px 24px;
@@ -46,7 +54,7 @@
             cursor: pointer;
             border: none;
             transition: transform 0.15s, opacity 0.2s;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', sans-serif;
         }
         button.btn:hover {
             transform: scale(1.02);
@@ -67,81 +75,105 @@
             margin: 0;
         }
         .list-group-item { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(4px);
-            margin-bottom: 6px; 
+            background-color: #1a2234; 
+            margin-bottom: 8px; 
             padding: 12px 18px; 
-            border-radius: 6px; 
+            border-radius: 8px; 
             cursor: grab; 
             display: flex; 
             align-items: center; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-family: 'Georgia', serif;
-            transition: all 0.2s ease;
+            border: 1px solid #2e3b52;
+            transition: background-color 0.2s;
+            user-select: none;
         }
         .list-group-item:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background-color: #232e45;
+            border-color: #47597a;
         }
         .list-group-item:active { 
             cursor: grabbing; 
         }
         .list-group-item.sortable-ghost {
-            opacity: 0.3;
-            background-color: #d4af37;
+            opacity: 0.35;
+            background-color: #e5b95f;
         }
-        
-        /* Stil för Topp 50 */
+        .drag-handle {
+            color: #64748b;
+            margin-right: 15px;
+            font-size: 1.2em;
+            cursor: grab;
+        }
         .rank-number { 
             font-weight: bold; 
             margin-right: 15px; 
-            color: #c9a050; 
-            width: 45px;
+            color: #e5b95f; 
+            width: 40px;
             font-size: 1.1em;
+            flex-shrink: 0;
+        }
+        .track-name {
+            font-size: 1.05em;
+            flex-grow: 1;
+        }
+        .move-btns {
+            display: flex;
+            gap: 4px;
+            margin-left: 10px;
+        }
+        .move-btn {
+            background: #28354e;
+            color: #cbd5e1;
+            border: 1px solid #3b4d6e;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        .move-btn:hover {
+            background: #e5b95f;
+            color: #121212;
         }
 
-        /* Stil för plats 51 och nedåt (utanför affischen) */
+        /* Plats 51 och nedåt (utanför affischen) */
         .list-group-item.outside-poster {
             opacity: 0.55;
-            background: rgba(255, 255, 255, 0.02);
+            background-color: #111726;
             border-style: dashed;
         }
         .list-group-item.outside-poster:hover {
             opacity: 0.9;
         }
         .list-group-item.outside-poster .rank-number {
-            color: #475569;
+            color: #64748b;
             font-weight: normal;
         }
 
-        /* Tydlig avdelare mellan plats 50 och 51 */
+        /* Gränslinje efter plats 50 */
         .list-group-item.cutoff-line {
-            margin-bottom: 25px;
+            margin-bottom: 36px;
             position: relative;
+            border-bottom: 2px solid #e5b95f;
         }
         .list-group-item.cutoff-line::after {
-            content: "▲ KOMMER MED PÅ AFFISCHEN (TOPP 50)  |  NEDANFÖR UTELÄMNAS ▼";
+            content: "▲ TOPP 50 (KOMMER MED PÅ AFFISCHEN)  •  NEDANFÖR UTANFÖR AFFISCHEN ▼";
             position: absolute;
-            bottom: -22px;
+            bottom: -27px;
             left: 0;
             right: 0;
             text-align: center;
-            font-family: sans-serif;
-            font-size: 0.75em;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.78em;
             letter-spacing: 2px;
-            color: #94a3b8;
+            color: #e5b95f;
             font-weight: bold;
         }
 
-        .track-name {
-            font-size: 1.05em;
-        }
-
-        /* Modal för att visa genererad bild */
+        /* Modal för att visa affischen */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.88);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -153,7 +185,7 @@
             max-height: 80vh;
             max-width: 90vw;
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.85);
         }
         .modal-buttons {
             margin-top: 15px;
@@ -168,21 +200,697 @@
 <body>
     <div class="container">
         <h1>Avicii Låtranking</h1>
-        <p class="subtitle">Dra och släpp för att ordna listan. Plats 1–50 numreras och hamnar på affischen.</p>
+        <p class="subtitle">Dra och släpp låtarna (eller använd pilarna) för att ordna din lista. De 50 översta låtarna hamnar på din poster!</p>
 
         <div class="actions-bar">
-            <button class="btn btn-gold" onclick="generatePoster()">Skapa Topp 50-affisch</button>
-            <button class="btn btn-dark" onclick="exportText()">Spara som text</button>
+            <button class="btn btn-gold" onclick="generatePoster()">Skapa Topp 50-poster</button>
+            <button class="btn btn-dark" onclick="exportText()">Spara lista som text</button>
         </div>
         
-        <ul id="rankList" class="list-group"></ul>
+        <ul id="rankList" class="list-group">
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">1.</span>
+                <span class="track-name">I Could Be The One</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">2.</span>
+                <span class="track-name">Levels</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">3.</span>
+                <span class="track-name">Dear Boy</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">4.</span>
+                <span class="track-name">Waiting For Love</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">5.</span>
+                <span class="track-name">Seek Bromance</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">6.</span>
+                <span class="track-name">Fade Into Darkness</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">7.</span>
+                <span class="track-name">Silhouettes</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">8.</span>
+                <span class="track-name">You Make Me</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">9.</span>
+                <span class="track-name">Without You</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">10.</span>
+                <span class="track-name">New New New</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">11.</span>
+                <span class="track-name">Girl Gone Wild</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">12.</span>
+                <span class="track-name">Sunshine</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">13.</span>
+                <span class="track-name">All You Need Is Love</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">14.</span>
+                <span class="track-name">A Sky Full Of Stars</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">15.</span>
+                <span class="track-name">UMF</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">16.</span>
+                <span class="track-name">Blessed</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">17.</span>
+                <span class="track-name">The Nights</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">18.</span>
+                <span class="track-name">My Feelings For You</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">19.</span>
+                <span class="track-name">Dancing In My Head</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">20.</span>
+                <span class="track-name">Superlove</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">21.</span>
+                <span class="track-name">Sunset Jesus</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">22.</span>
+                <span class="track-name">Beautiful Heartbeat</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">23.</span>
+                <span class="track-name">For A Better Day</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">24.</span>
+                <span class="track-name">Shame On Me</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">25.</span>
+                <span class="track-name">Hey Brother</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">26.</span>
+                <span class="track-name">City Lights</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">27.</span>
+                <span class="track-name">True Believer</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">28.</span>
+                <span class="track-name">Broken Arrows</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">29.</span>
+                <span class="track-name">Always On The Run</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">30.</span>
+                <span class="track-name">Wake Me Up</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">31.</span>
+                <span class="track-name">Tough Love</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">32.</span>
+                <span class="track-name">Rapture</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">33.</span>
+                <span class="track-name">Back Where I Belong</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">34.</span>
+                <span class="track-name">X You</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">35.</span>
+                <span class="track-name">Last Dance</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">36.</span>
+                <span class="track-name">Fades Away</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">37.</span>
+                <span class="track-name">Gonna Love You</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">38.</span>
+                <span class="track-name">The Days</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">39.</span>
+                <span class="track-name">Addicted To You</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">40.</span>
+                <span class="track-name">Somewhere In Stockholm</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">41.</span>
+                <span class="track-name">Can't Catch Me</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">42.</span>
+                <span class="track-name">Pure Grinding</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">43.</span>
+                <span class="track-name">Lonely Together</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">44.</span>
+                <span class="track-name">Heaven</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">45.</span>
+                <span class="track-name">You Be Love</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">46.</span>
+                <span class="track-name">SOS</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">47.</span>
+                <span class="track-name">Divine Sorrow</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">48.</span>
+                <span class="track-name">Forever Yours</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">49.</span>
+                <span class="track-name">Talk To Myself</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item cutoff-line" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">50.</span>
+                <span class="track-name">Liar Liar</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Lay Me Down</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">EDOM</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">So Much Better</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Feeling Good</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Taste The Feeling</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Speed</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Bad Reputation</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Let's Ride Away</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Peace Of Mind</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Friend Of Mine</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Trouble</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Touch Me</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Ten More Days</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Hope There's Someone</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Heart Upon My Sleeve</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Canyons</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Hold The Line</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Ain't A Thing</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Freak</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Excuse Me Mr Sir</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">What Would I Change It To</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Long Road To Hell</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Never Leave Me</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Derezzed</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+            <li class="list-group-item outside-poster" draggable="true">
+                <span class="drag-handle" title="Dra för att flytta">☰</span>
+                <span class="rank-number">–</span>
+                <span class="track-name">Insomnia 2.0</span>
+                <div class="move-btns">
+                    <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
+                    <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
+                </div>
+            </li>
+        </ul>
     </div>
 
-    <!-- Förhandsvisning av affischen -->
+    <!-- Förhandsvisning av postern -->
     <div id="imageModal" class="modal">
-        <img id="posterPreview" alt="Topp 50 Poster">
+        <img id="posterPreview" alt="Avicii Topp 50 Poster">
         <div class="modal-buttons">
-            <a id="downloadLink" download="avicii_top_50.png" class="btn btn-gold" style="text-decoration: none; display: inline-block;">Ladda ner bild</a>
+            <a id="downloadLink" download="avicii_top_50_poster.png" class="btn btn-gold" style="text-decoration: none; display: inline-block;">Ladda ner poster (PNG)</a>
             <button class="btn btn-dark" onclick="closeModal()">Stäng</button>
         </div>
     </div>
@@ -190,183 +898,216 @@
     <canvas id="posterCanvas" width="1000" height="1500"></canvas>
 
     <script>
-        const initialTracks = [
-            "I Could Be the One", "Levels", "Dear Boy", "Waiting for Love", "Seek Bromance",
-            "Fade Into Darkness", "Silhouettes", "You Make Me", "Without You", "New New New",
-            "Girl Gone Wild", "Sunshine", "All You Need Is Love", "A Sky Full of Stars", "UMF",
-            "Blessed", "The Nights", "My Feelings for You", "Dancing in My Head", "Superlove",
-            "Sunset Jesus", "Beautiful Heartbeat", "For a Better Day", "Shame on Me", "Hey Brother",
-            "City Lights", "True Believer", "Broken Arrows", "Always on the Run", "Wake Me Up",
-            "Tough Love", "Rapture", "Back Where I Belong", "X You", "Last Dance",
-            "Fades Away", "Gonna Love Ya", "The Days", "Addicted to You", "Somewhere in Stockholm",
-            "Can't Catch Me", "Pure Grinding", "Lonely Together", "Heaven", "You Be Love",
-            "SOS", "Divine Sorrow", "Forever Yours", "Talk to Myself", "Liar Liar",
-            "Lay Me Down", "EDOM", "So Much Better", "Feeling Good", "Taste the Feeling",
-            "Speed", "Bad Reputation", "Peace of Mind", "Friend of Mine", "Trouble",
-            "Touch Me", "Ten More Days", "Hope There's Someone", "Heart Upon My Sleeve", "Canyons",
-            "Hold the Line", "Ain't a Thing", "Freak", "Excuse Me Mr Sir", "What Would I Change It To",
-            "Long Road to Hell", "Never Leave Me", "Derezzed", "Insomnia 2.0", "Miami 82"
-        ];
+        var listEl = document.getElementById('rankList');
 
-        const listEl = document.getElementById('rankList');
+        // 1. Aktivera SortableJS om biblioteket har laddats
+        if (typeof Sortable !== 'undefined') {
+            Sortable.create(listEl, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: updateRanks
+            });
+        } else {
+            // Reservlösning med inbyggd HTML5 Drag-and-Drop om man är offline
+            var draggedItem = null;
+            listEl.addEventListener('dragstart', function(e) {
+                draggedItem = e.target.closest('li');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+            listEl.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                var target = e.target.closest('li');
+                if (target && target !== draggedItem) {
+                    var rect = target.getBoundingClientRect();
+                    var next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+                    listEl.insertBefore(draggedItem, next ? target.nextSibling : target);
+                }
+            });
+            listEl.addEventListener('dragend', function() {
+                updateRanks();
+            });
+        }
 
-        // Bygg hela den gemensamma listan
-        initialTracks.forEach((track) => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.innerHTML = `<span class="rank-number"></span><span class="track-name">${track}</span>`;
-            listEl.appendChild(li);
-        });
+        // 2. Flytta låt med upp/ner-knapparna
+        function moveItem(btn, direction) {
+            var li = btn.closest('li');
+            if (direction === -1 && li.previousElementSibling) {
+                listEl.insertBefore(li, li.previousElementSibling);
+                updateRanks();
+            } else if (direction === 1 && li.nextElementSibling) {
+                listEl.insertBefore(li.nextElementSibling, li);
+                updateRanks();
+            }
+        }
 
-        // Dra-och-släpp med SortableJS
-        Sortable.create(listEl, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            onEnd: updateRanks
-        });
-
+        // 3. Uppdatera siffror (1-50 får nummer, 51-75 får streck)
         function updateRanks() {
-            const items = listEl.getElementsByTagName('li');
-            for (let i = 0; i < items.length; i++) {
-                const numEl = items[i].getElementsByClassName('rank-number')[0];
-                
-                // Rensa eventuella gamla klasser
+            var items = listEl.getElementsByTagName('li');
+            for (var i = 0; i < items.length; i++) {
+                var numEl = items[i].getElementsByClassName('rank-number')[0];
                 items[i].classList.remove('outside-poster', 'cutoff-line');
 
                 if (i < 50) {
-                    // Plats 1 till 50 får nummer
                     numEl.innerText = (i + 1) + '.';
                     if (i === 49) {
-                        // Markera gränsen efter plats 50
                         items[i].classList.add('cutoff-line');
                     }
                 } else {
-                    // Plats 51 och nedåt får inget nummer
                     numEl.innerText = '–';
                     items[i].classList.add('outside-poster');
                 }
             }
         }
 
+        // 4. Spara som textfil
         function exportText() {
-            const items = listEl.getElementsByTagName('li');
-            let out = "Avicii Topp 50:\\n\\n";
-            for (let i = 0; i < Math.min(50, items.length); i++) {
-                out += `${i + 1}. ${items[i].getElementsByClassName('track-name')[0].innerText}\\n`;
+            var items = listEl.getElementsByTagName('li');
+            var out = "AVICII - MIN RANKING (TOPP 50):\n\n";
+            for (var i = 0; i < Math.min(50, items.length); i++) {
+                out += (i + 1) + ". " + items[i].getElementsByClassName('track-name')[0].innerText + "\n";
             }
-            if (items.length > 50) {
-                out += "\\nUtanför topplistan:\\n";
-                for (let j = 50; j < items.length; j++) {
-                    out += `- ${items[j].getElementsByClassName('track-name')[0].innerText}\\n`;
-                }
-            }
-            const blob = new Blob([out], { type: "text/plain;charset=utf-8" });
-            const a = document.createElement("a");
+            var blob = new Blob([out], { type: "text/plain;charset=utf-8" });
+            var a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = "avicii_ranking.txt";
+            a.download = "avicii_topp_50.txt";
             a.click();
         }
 
-        // Rita och exportera affischen för Topp 50
+        // 5. Skapa postern för Topp 50
         function generatePoster() {
-            const canvas = document.getElementById('posterCanvas');
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width;
-            const h = canvas.height;
+            var canvas = document.getElementById('posterCanvas');
+            var ctx = canvas.getContext('2d');
+            var w = canvas.width;
+            var h = canvas.height;
 
-            // 1. Bakgrund: Solnedgång över vatten och berg
-            const grad = ctx.createLinearGradient(0, 0, 0, h);
-            grad.addColorStop(0, '#101e38');
-            grad.addColorStop(0.25, '#3b2f4c');
-            grad.addColorStop(0.45, '#c85e2b');
-            grad.addColorStop(0.6, '#e08b3c');
-            grad.addColorStop(0.75, '#162238');
-            grad.addColorStop(1, '#050811');
-            ctx.fillStyle = grad;
+            // Bakgrund: Solnedgång över berg och sjö
+            var skyGrad = ctx.createLinearGradient(0, 0, 0, h);
+            skyGrad.addColorStop(0, '#0f1c35');
+            skyGrad.addColorStop(0.18, '#3b3154');
+            skyGrad.addColorStop(0.32, '#c86432');
+            skyGrad.addColorStop(0.42, '#f3a847');
+            skyGrad.addColorStop(0.55, '#121d33');
+            skyGrad.addColorStop(0.85, '#09101f');
+            skyGrad.addColorStop(1, '#040710');
+            ctx.fillStyle = skyGrad;
             ctx.fillRect(0, 0, w, h);
 
-            // Mörk övertoning i mitten bakom texten
-            ctx.fillStyle = 'rgba(5, 10, 20, 0.72)';
-            ctx.fillRect(0, 360, w, 780);
+            // Solglöd vid horisonten
+            var sunGrad = ctx.createRadialGradient(820, 260, 10, 820, 260, 320);
+            sunGrad.addColorStop(0, 'rgba(255, 240, 180, 0.9)');
+            sunGrad.addColorStop(0.3, 'rgba(255, 160, 60, 0.45)');
+            sunGrad.addColorStop(1, 'rgba(255, 120, 40, 0)');
+            ctx.fillStyle = sunGrad;
+            ctx.fillRect(0, 0, w, 600);
 
-            // 2. Avicii-symbolen
+            // Bergssilhuetter i bakgrunden
+            ctx.fillStyle = '#18233c';
+            ctx.beginPath();
+            ctx.moveTo(0, 380);
+            ctx.lineTo(140, 210);
+            ctx.lineTo(290, 320);
+            ctx.lineTo(450, 180);
+            ctx.lineTo(640, 330);
+            ctx.lineTo(780, 230);
+            ctx.lineTo(920, 310);
+            ctx.lineTo(1000, 260);
+            ctx.lineTo(1000, 420);
+            ctx.lineTo(0, 420);
+            ctx.closePath();
+            ctx.fill();
+
+            // Mörk tonad platta bakom låtlistan
+            ctx.fillStyle = 'rgba(7, 12, 24, 0.78)';
+            ctx.fillRect(60, 390, 880, 780);
+
+            // Avicii-logotyp (trianglarna högst upp)
             ctx.save();
-            ctx.fillStyle = '#ffffff';
-            ctx.globalAlpha = 0.9;
+            ctx.fillStyle = 'rgba(255, 245, 225, 0.88)';
             ctx.beginPath();
-            ctx.moveTo(480, 150); ctx.lineTo(320, 230); ctx.lineTo(480, 230); ctx.closePath(); ctx.fill();
+            ctx.moveTo(485, 55); ctx.lineTo(310, 220); ctx.lineTo(485, 220); ctx.closePath(); ctx.fill();
             ctx.beginPath();
-            ctx.moveTo(520, 150); ctx.lineTo(680, 150); ctx.lineTo(520, 230); ctx.closePath(); ctx.fill();
+            ctx.moveTo(515, 55); ctx.lineTo(690, 55); ctx.lineTo(515, 220); ctx.closePath(); ctx.fill();
             ctx.restore();
 
-            // 3. Rubriker
-            ctx.fillStyle = '#ffffff';
+            // AVICII-texten
+            ctx.fillStyle = '#f7ebd2';
             ctx.textAlign = 'center';
-            ctx.font = 'bold 80px "Montserrat", "Arial Black", sans-serif';
-            ctx.letterSpacing = '14px';
-            ctx.fillText('AVICII', w / 2, 310);
+            ctx.font = 'bold 86px "Arial Black", "Montserrat", sans-serif';
+            ctx.fillText('AVICII', w / 2, 325);
 
-            ctx.font = '500 20px "Georgia", serif';
-            ctx.fillStyle = '#e8d5b5';
-            ctx.letterSpacing = '5px';
-            ctx.fillText('— MIN RANKING • 50 LÅTAR —', w / 2, 350);
+            // Underrubrik med linjer
+            ctx.font = '22px "Georgia", serif';
+            ctx.fillStyle = '#dcd0ba';
+            ctx.fillText('———  M I N   R A N K I N G  •  5 0   L Å T A R  ———', w / 2, 370);
 
-            // 4. Hämta de 50 översta låtarna
-            const items = listEl.getElementsByTagName('li');
-            const songs = [];
-            for (let i = 0; i < Math.min(50, items.length); i++) {
+            // Vertikal skiljelinje mellan de 2 kolumnerna
+            ctx.strokeStyle = 'rgba(229, 185, 95, 0.28)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(w / 2, 415);
+            ctx.lineTo(w / 2, 1140);
+            ctx.stroke();
+
+            // Hämta de 50 översta låtarna ur listan
+            var items = listEl.getElementsByTagName('li');
+            var songs = [];
+            for (var i = 0; i < Math.min(50, items.length); i++) {
                 songs.push(items[i].getElementsByClassName('track-name')[0].innerText);
             }
 
-            // 2 kolumner (25 låtar per kolumn)
-            const colX = [140, 560];
-            const startY = 415;
-            const lineHeight = 28;
+            var colX = [120, 545];
+            var startY = 435;
+            var lineHeight = 28.5;
 
             ctx.textAlign = 'left';
-            ctx.letterSpacing = '0px';
 
-            for (let col = 0; col < 2; col++) {
-                for (let row = 0; row < 25; row++) {
-                    const idx = col * 25 + row;
+            for (var col = 0; col < 2; col++) {
+                for (var row = 0; row < 25; row++) {
+                    var idx = col * 25 + row;
                     if (idx >= songs.length) break;
 
-                    const num = idx + 1;
-                    const y = startY + (row * lineHeight);
-                    const x = colX[col];
+                    var num = idx + 1;
+                    var y = startY + (row * lineHeight);
+                    var x = colX[col];
 
-                    // Färgsätt Topp 3 i guld
-                    const isTop3 = num <= 3;
-                    const numColor = isTop3 ? '#f3c465' : '#c9d6df';
-                    const titleColor = isTop3 ? '#f3c465' : '#f8fafc';
-
-                    ctx.font = isTop3 ? 'bold 18px "Georgia", serif' : '16px "Georgia", serif';
+                    var isTop3 = num <= 3;
+                    ctx.font = isTop3 ? 'bold 20px "Georgia", serif' : '18.5px "Georgia", serif';
 
                     // Nummer
-                    ctx.fillStyle = numColor;
-                    ctx.fillText(`${num}.`, x, y);
+                    ctx.fillStyle = isTop3 ? '#f3c465' : '#cbd5e1';
+                    ctx.fillText(num + '.', x, y);
 
-                    // Titel
-                    ctx.fillStyle = titleColor;
-                    let title = songs[idx];
-                    if (title.length > 28) title = title.substring(0, 26) + '...';
-                    ctx.fillText(title, x + 40, y);
+                    // Låttitel
+                    ctx.fillStyle = isTop3 ? '#f3c465' : '#ffffff';
+                    var title = songs[idx];
+                    if (title.length > 27) title = title.substring(0, 25) + '...';
+                    ctx.fillText(title, x + 45, y);
                 }
             }
 
-            // 5. Konsertljus längst ner
+            // Konsertscen längst ner med strålkastare
             ctx.save();
-            ctx.globalAlpha = 0.4;
-            const beamGrad = ctx.createLinearGradient(0, 1200, 0, h);
-            beamGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
-            beamGrad.addColorStop(0.7, 'rgba(56, 189, 248, 0.4)');
-            beamGrad.addColorStop(1, '#050811');
-            ctx.fillStyle = beamGrad;
+            ctx.fillStyle = '#070b14';
+            ctx.fillRect(280, 1210, 440, 190);
+            
+            // Avicii-logga på scenen
+            ctx.fillStyle = '#fff5e1';
+            ctx.beginPath();
+            ctx.moveTo(495, 1310); ctx.lineTo(465, 1345); ctx.lineTo(495, 1345); ctx.closePath(); ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(505, 1310); ctx.lineTo(535, 1310); ctx.lineTo(505, 1345); ctx.closePath(); ctx.fill();
+
+            // Strålkastarljus
+            var glowGrad = ctx.createRadialGradient(w / 2, 1350, 20, w / 2, 1350, 380);
+            glowGrad.addColorStop(0, 'rgba(255, 190, 90, 0.55)');
+            glowGrad.addColorStop(0.5, 'rgba(56, 189, 248, 0.2)');
+            glowGrad.addColorStop(1, 'rgba(5, 8, 17, 0)');
+            ctx.fillStyle = glowGrad;
             ctx.fillRect(0, 1150, w, 350);
             ctx.restore();
 
-            // Öppna modalen med bilden
-            const dataUrl = canvas.toDataURL('image/png');
+            // Visa postern i modalen
+            var dataUrl = canvas.toDataURL('image/png');
             document.getElementById('posterPreview').src = dataUrl;
             document.getElementById('downloadLink').href = dataUrl;
             document.getElementById('imageModal').style.display = 'flex';
@@ -375,9 +1116,6 @@
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
         }
-
-        // Kör direkt vid start för att sätta siffror och stil
-        updateRanks();
     </script>
 </body>
 </html>
