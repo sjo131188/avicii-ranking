@@ -35,7 +35,7 @@
             display: flex;
             gap: 15px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
         button.btn {
@@ -61,32 +61,10 @@
             color: #e2e8f0;
             border: 1px solid #334155;
         }
-        .section-header {
-            font-family: sans-serif;
-            font-size: 1.1em;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 30px 0 15px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 8px;
-        }
-        .section-header.poster-zone {
-            color: #e5b95f;
-            border-color: #e5b95f;
-        }
-        .section-header.bench-zone {
-            color: #94a3b8;
-            border-color: #334155;
-        }
         .list-group { 
             list-style-type: none; 
             padding: 0; 
             margin: 0;
-            min-height: 60px;
         }
         .list-group-item { 
             background: rgba(255, 255, 255, 0.05); 
@@ -99,7 +77,7 @@
             align-items: center; 
             border: 1px solid rgba(255, 255, 255, 0.1);
             font-family: 'Georgia', serif;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
         }
         .list-group-item:hover {
             background: rgba(255, 255, 255, 0.1);
@@ -111,26 +89,53 @@
             opacity: 0.3;
             background-color: #d4af37;
         }
-        #benchList .list-group-item {
-            opacity: 0.65;
-            border-style: dashed;
-        }
-        #benchList .list-group-item:hover {
-            opacity: 1;
-        }
+        
+        /* Stil för Topp 50 */
         .rank-number { 
             font-weight: bold; 
             margin-right: 15px; 
             color: #c9a050; 
-            width: 40px;
+            width: 45px;
             font-size: 1.1em;
         }
-        #benchList .rank-number {
-            color: #64748b;
+
+        /* Stil för plats 51 och nedåt (utanför affischen) */
+        .list-group-item.outside-poster {
+            opacity: 0.55;
+            background: rgba(255, 255, 255, 0.02);
+            border-style: dashed;
         }
+        .list-group-item.outside-poster:hover {
+            opacity: 0.9;
+        }
+        .list-group-item.outside-poster .rank-number {
+            color: #475569;
+            font-weight: normal;
+        }
+
+        /* Tydlig avdelare mellan plats 50 och 51 */
+        .list-group-item.cutoff-line {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .list-group-item.cutoff-line::after {
+            content: "▲ KOMMER MED PÅ AFFISCHEN (TOPP 50)  |  NEDANFÖR UTELÄMNAS ▼";
+            position: absolute;
+            bottom: -22px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 0.75em;
+            letter-spacing: 2px;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
         .track-name {
             font-size: 1.05em;
         }
+
         /* Modal för att visa genererad bild */
         .modal {
             display: none;
@@ -163,24 +168,14 @@
 <body>
     <div class="container">
         <h1>Avicii Låtranking</h1>
-        <p class="subtitle">Dra låtar mellan listorna. De 50 översta låtarna kommer med på affischen!</p>
+        <p class="subtitle">Dra och släpp för att ordna listan. Plats 1–50 numreras och hamnar på affischen.</p>
 
         <div class="actions-bar">
             <button class="btn btn-gold" onclick="generatePoster()">Skapa Topp 50-affisch</button>
             <button class="btn btn-dark" onclick="exportText()">Spara som text</button>
         </div>
         
-        <div class="section-header poster-zone">
-            <span>Topp 50 (Kommer med på affischen)</span>
-            <span id="topCount">50 / 50</span>
-        </div>
         <ul id="rankList" class="list-group"></ul>
-
-        <div class="section-header bench-zone">
-            <span>Övriga låtar (Utanför affischen)</span>
-            <span id="benchCount">25</span>
-        </div>
-        <ul id="benchList" class="list-group"></ul>
     </div>
 
     <!-- Förhandsvisning av affischen -->
@@ -206,7 +201,6 @@
             "Fades Away", "Gonna Love Ya", "The Days", "Addicted to You", "Somewhere in Stockholm",
             "Can't Catch Me", "Pure Grinding", "Lonely Together", "Heaven", "You Be Love",
             "SOS", "Divine Sorrow", "Forever Yours", "Talk to Myself", "Liar Liar",
-            // De sista 25 (hamnar i den undre listan som standard)
             "Lay Me Down", "EDOM", "So Much Better", "Feeling Good", "Taste the Feeling",
             "Speed", "Bad Reputation", "Peace of Mind", "Friend of Mine", "Trouble",
             "Touch Me", "Ten More Days", "Hope There's Someone", "Heart Upon My Sleeve", "Canyons",
@@ -214,71 +208,176 @@
             "Long Road to Hell", "Never Leave Me", "Derezzed", "Insomnia 2.0", "Miami 82"
         ];
 
-        const topListEl = document.getElementById('rankList');
-        const benchListEl = document.getElementById('benchList');
+        const listEl = document.getElementById('rankList');
 
-        // Rendera de första 50 i topplistan och resterande 25 i bänklistan
-        initialTracks.forEach((track, index) => {
+        // Bygg hela den gemensamma listan
+        initialTracks.forEach((track) => {
             const li = document.createElement('li');
             li.className = 'list-group-item';
             li.innerHTML = `<span class="rank-number"></span><span class="track-name">${track}</span>`;
-            if (index < 50) {
-                topListEl.appendChild(li);
-            } else {
-                benchListEl.appendChild(li);
-            }
+            listEl.appendChild(li);
         });
 
-        // Gör båda listorna sorterbara och kopplade så att man kan dra emellan dem
-        const sortableOptions = {
-            group: 'avicii-tracks',
+        // Dra-och-släpp med SortableJS
+        Sortable.create(listEl, {
             animation: 150,
             ghostClass: 'sortable-ghost',
             onEnd: updateRanks
-        };
-
-        Sortable.create(topListEl, sortableOptions);
-        Sortable.create(benchListEl, sortableOptions);
+        });
 
         function updateRanks() {
-            const topItems = topListEl.getElementsByTagName('li');
-            for (let i = 0; i < topItems.length; i++) {
-                topItems[i].getElementsByClassName('rank-number')[0].innerText = (i + 1) + '.';
-            }
+            const items = listEl.getElementsByTagName('li');
+            for (let i = 0; i < items.length; i++) {
+                const numEl = items[i].getElementsByClassName('rank-number')[0];
+                
+                // Rensa eventuella gamla klasser
+                items[i].classList.remove('outside-poster', 'cutoff-line');
 
-            const benchItems = benchListEl.getElementsByTagName('li');
-            for (let j = 0; j < benchItems.length; j++) {
-                benchItems[j].getElementsByClassName('rank-number')[0].innerText = '-';
+                if (i < 50) {
+                    // Plats 1 till 50 får nummer
+                    numEl.innerText = (i + 1) + '.';
+                    if (i === 49) {
+                        // Markera gränsen efter plats 50
+                        items[i].classList.add('cutoff-line');
+                    }
+                } else {
+                    // Plats 51 och nedåt får inget nummer
+                    numEl.innerText = '–';
+                    items[i].classList.add('outside-poster');
+                }
             }
-
-            document.getElementById('topCount').innerText = `${topItems.length} / 50`;
-            document.getElementById('benchCount').innerText = benchItems.length;
         }
 
         function exportText() {
-            const topItems = topListEl.getElementsByTagName('li');
+            const items = listEl.getElementsByTagName('li');
             let out = "Avicii Topp 50:\\n\\n";
-            for (let i = 0; i < topItems.length; i++) {
-                out += `${i + 1}. ${topItems[i].getElementsByClassName('track-name')[0].innerText}\\n`;
+            for (let i = 0; i < Math.min(50, items.length); i++) {
+                out += `${i + 1}. ${items[i].getElementsByClassName('track-name')[0].innerText}\\n`;
+            }
+            if (items.length > 50) {
+                out += "\\nUtanför topplistan:\\n";
+                for (let j = 50; j < items.length; j++) {
+                    out += `- ${items[j].getElementsByClassName('track-name')[0].innerText}\\n`;
+                }
             }
             const blob = new Blob([out], { type: "text/plain;charset=utf-8" });
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = "avicii_topp_50.txt";
+            a.download = "avicii_ranking.txt";
             a.click();
         }
 
-        // Rita ut Topp 50 på affischen
+        // Rita och exportera affischen för Topp 50
         function generatePoster() {
             const canvas = document.getElementById('posterCanvas');
             const ctx = canvas.getContext('2d');
             const w = canvas.width;
             const h = canvas.height;
 
-            // 1. Bakgrund: Solnedgång över berg & vatten
+            // 1. Bakgrund: Solnedgång över vatten och berg
             const grad = ctx.createLinearGradient(0, 0, 0, h);
             grad.addColorStop(0, '#101e38');
             grad.addColorStop(0.25, '#3b2f4c');
             grad.addColorStop(0.45, '#c85e2b');
             grad.addColorStop(0.6, '#e08b3c');
-            grad.addColorStop(0.75, '#162
+            grad.addColorStop(0.75, '#162238');
+            grad.addColorStop(1, '#050811');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Mörk övertoning i mitten bakom texten
+            ctx.fillStyle = 'rgba(5, 10, 20, 0.72)';
+            ctx.fillRect(0, 360, w, 780);
+
+            // 2. Avicii-symbolen
+            ctx.save();
+            ctx.fillStyle = '#ffffff';
+            ctx.globalAlpha = 0.9;
+            ctx.beginPath();
+            ctx.moveTo(480, 150); ctx.lineTo(320, 230); ctx.lineTo(480, 230); ctx.closePath(); ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(520, 150); ctx.lineTo(680, 150); ctx.lineTo(520, 230); ctx.closePath(); ctx.fill();
+            ctx.restore();
+
+            // 3. Rubriker
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.font = 'bold 80px "Montserrat", "Arial Black", sans-serif';
+            ctx.letterSpacing = '14px';
+            ctx.fillText('AVICII', w / 2, 310);
+
+            ctx.font = '500 20px "Georgia", serif';
+            ctx.fillStyle = '#e8d5b5';
+            ctx.letterSpacing = '5px';
+            ctx.fillText('— MIN RANKING • 50 LÅTAR —', w / 2, 350);
+
+            // 4. Hämta de 50 översta låtarna
+            const items = listEl.getElementsByTagName('li');
+            const songs = [];
+            for (let i = 0; i < Math.min(50, items.length); i++) {
+                songs.push(items[i].getElementsByClassName('track-name')[0].innerText);
+            }
+
+            // 2 kolumner (25 låtar per kolumn)
+            const colX = [140, 560];
+            const startY = 415;
+            const lineHeight = 28;
+
+            ctx.textAlign = 'left';
+            ctx.letterSpacing = '0px';
+
+            for (let col = 0; col < 2; col++) {
+                for (let row = 0; row < 25; row++) {
+                    const idx = col * 25 + row;
+                    if (idx >= songs.length) break;
+
+                    const num = idx + 1;
+                    const y = startY + (row * lineHeight);
+                    const x = colX[col];
+
+                    // Färgsätt Topp 3 i guld
+                    const isTop3 = num <= 3;
+                    const numColor = isTop3 ? '#f3c465' : '#c9d6df';
+                    const titleColor = isTop3 ? '#f3c465' : '#f8fafc';
+
+                    ctx.font = isTop3 ? 'bold 18px "Georgia", serif' : '16px "Georgia", serif';
+
+                    // Nummer
+                    ctx.fillStyle = numColor;
+                    ctx.fillText(`${num}.`, x, y);
+
+                    // Titel
+                    ctx.fillStyle = titleColor;
+                    let title = songs[idx];
+                    if (title.length > 28) title = title.substring(0, 26) + '...';
+                    ctx.fillText(title, x + 40, y);
+                }
+            }
+
+            // 5. Konsertljus längst ner
+            ctx.save();
+            ctx.globalAlpha = 0.4;
+            const beamGrad = ctx.createLinearGradient(0, 1200, 0, h);
+            beamGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
+            beamGrad.addColorStop(0.7, 'rgba(56, 189, 248, 0.4)');
+            beamGrad.addColorStop(1, '#050811');
+            ctx.fillStyle = beamGrad;
+            ctx.fillRect(0, 1150, w, 350);
+            ctx.restore();
+
+            // Öppna modalen med bilden
+            const dataUrl = canvas.toDataURL('image/png');
+            document.getElementById('posterPreview').src = dataUrl;
+            document.getElementById('downloadLink').href = dataUrl;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Kör direkt vid start för att sätta siffror och stil
+        updateRanks();
+    </script>
+</body>
+</html>
