@@ -928,15 +928,24 @@
             });
         }
 
-        // 2. Flytta låt med upp/ner-knapparna
+        // 2. Flytta låt med upp/ner-knapparna och håll kvar knappen under muspekaren
         function moveItem(btn, direction) {
             var li = btn.closest('li');
+            var oldRect = li.getBoundingClientRect();
+            var moved = false;
+
             if (direction === -1 && li.previousElementSibling) {
                 listEl.insertBefore(li, li.previousElementSibling);
-                updateRanks();
+                moved = true;
             } else if (direction === 1 && li.nextElementSibling) {
                 listEl.insertBefore(li.nextElementSibling, li);
+                moved = true;
+            }
+
+            if (moved) {
                 updateRanks();
+                var newRect = li.getBoundingClientRect();
+                window.scrollBy(0, newRect.top - oldRect.top);
             }
         }
 
