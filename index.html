@@ -40,7 +40,7 @@
             position: sticky;
             top: 10px;
             z-index: 100;
-            background: rgba(11, 17, 30, 0.9);
+            background: rgba(11, 17, 30, 0.92);
             padding: 12px;
             border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -77,8 +77,8 @@
         .list-group-item { 
             background-color: #1a2234; 
             margin-bottom: 8px; 
-            padding: 12px 18px; 
-            border-radius: 8px; 
+            padding: 10px 16px; 
+            border-radius: 10px; 
             cursor: grab; 
             display: flex; 
             align-items: center; 
@@ -99,21 +99,47 @@
         }
         .drag-handle {
             color: #64748b;
-            margin-right: 15px;
+            margin-right: 12px;
             font-size: 1.2em;
             cursor: grab;
         }
         .rank-number { 
             font-weight: bold; 
-            margin-right: 15px; 
+            margin-right: 12px; 
             color: #e5b95f; 
-            width: 40px;
+            width: 36px;
             font-size: 1.1em;
             flex-shrink: 0;
         }
+        .album-cover {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            object-fit: cover;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background-color: #0f172a;
+        }
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            min-width: 0;
+        }
         .track-name {
             font-size: 1.05em;
-            flex-grow: 1;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .album-name {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.78em;
+            color: #94a3b8;
+            margin-top: 2px;
         }
         .move-btns {
             display: flex;
@@ -125,7 +151,7 @@
             color: #cbd5e1;
             border: 1px solid #3b4d6e;
             border-radius: 4px;
-            padding: 4px 8px;
+            padding: 5px 9px;
             cursor: pointer;
             font-size: 0.8em;
         }
@@ -208,676 +234,976 @@
         </div>
         
         <ul id="rankList" class="list-group">
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Nicky Romero I Could Be The One">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">1.</span>
-                <span class="track-name">I Could Be The One</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="I Could Be The One" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">I Could Be The One</span>
+                    <span class="album-name">Singel (2012)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Levels">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">2.</span>
-                <span class="track-name">Levels</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Levels" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Levels</span>
+                    <span class="album-name">Singel (2011)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">3.</span>
-                <span class="track-name">Dear Boy</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Dear Boy" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Dear Boy</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">4.</span>
-                <span class="track-name">Waiting For Love</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Waiting For Love" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Waiting For Love</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Tim Berg Seek Bromance">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">5.</span>
-                <span class="track-name">Seek Bromance</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Seek Bromance" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Seek Bromance</span>
+                    <span class="album-name">Singel (2010)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Fade Into Darkness">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">6.</span>
-                <span class="track-name">Fade Into Darkness</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Fade Into Darkness" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Fade Into Darkness</span>
+                    <span class="album-name">Singel (2011)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Silhouettes">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">7.</span>
-                <span class="track-name">Silhouettes</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Silhouettes" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Silhouettes</span>
+                    <span class="album-name">Singel (2012)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">8.</span>
-                <span class="track-name">You Make Me</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="You Make Me" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">You Make Me</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Without You">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">9.</span>
-                <span class="track-name">Without You</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231d3557%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23457b9d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EAV%C4%AACI%2001%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Without You" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Without You</span>
+                    <span class="album-name">Avīci (01)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Bob Sinclar New New New Avicii">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">10.</span>
-                <span class="track-name">New New New</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231e1b4b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23312e81%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EREMIX%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="New New New" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">New New New</span>
+                    <span class="album-name">Remix (2010)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Madonna Girl Gone Wild Avicii">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">11.</span>
-                <span class="track-name">Girl Gone Wild</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231e1b4b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23312e81%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EREMIX%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Girl Gone Wild" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Girl Gone Wild</span>
+                    <span class="album-name">Remix (2012)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="David Guetta Avicii Sunshine">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">12.</span>
-                <span class="track-name">Sunshine</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Sunshine" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Sunshine</span>
+                    <span class="album-name">Nothing But The Beat</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">13.</span>
-                <span class="track-name">All You Need Is Love</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="All You Need Is Love" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">All You Need Is Love</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Coldplay A Sky Full Of Stars">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">14.</span>
-                <span class="track-name">A Sky Full Of Stars</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="A Sky Full Of Stars" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">A Sky Full Of Stars</span>
+                    <span class="album-name">Ghost Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii UMF">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">15.</span>
-                <span class="track-name">UMF</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="UMF" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">UMF</span>
+                    <span class="album-name">Singel (2013)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Tom Hangs Shermanology Blessed">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">16.</span>
-                <span class="track-name">Blessed</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Blessed" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Blessed</span>
+                    <span class="album-name">Singel (2011)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii The Nights">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">17.</span>
-                <span class="track-name">The Nights</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230f172a%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23334155%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2338bdf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2338bdf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ENIGHTS%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="The Nights" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">The Nights</span>
+                    <span class="album-name">The Days / Nights</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Sebastien Drums My Feelings For You">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">18.</span>
-                <span class="track-name">My Feelings For You</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="My Feelings For You" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">My Feelings For You</span>
+                    <span class="album-name">Singel (2010)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Eric Turner Avicii Dancing In My Head">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">19.</span>
-                <span class="track-name">Dancing In My Head</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Dancing In My Head" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Dancing In My Head</span>
+                    <span class="album-name">Singel (2012)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Lenny Kravitz Avicii Superlove">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">20.</span>
-                <span class="track-name">Superlove</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Superlove" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Superlove</span>
+                    <span class="album-name">Singel (2012)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">21.</span>
-                <span class="track-name">Sunset Jesus</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Sunset Jesus" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Sunset Jesus</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="MORTEN Beautiful Heartbeat Avicii">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">22.</span>
-                <span class="track-name">Beautiful Heartbeat</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231e1b4b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23312e81%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EREMIX%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Beautiful Heartbeat" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Beautiful Heartbeat</span>
+                    <span class="album-name">Remix (2016)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">23.</span>
-                <span class="track-name">For A Better Day</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="For A Better Day" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">For A Better Day</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">24.</span>
-                <span class="track-name">Shame On Me</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Shame On Me" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Shame On Me</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">25.</span>
-                <span class="track-name">Hey Brother</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Hey Brother" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Hey Brother</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">26.</span>
-                <span class="track-name">City Lights</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="City Lights" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">City Lights</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">27.</span>
-                <span class="track-name">True Believer</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="True Believer" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">True Believer</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">28.</span>
-                <span class="track-name">Broken Arrows</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Broken Arrows" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Broken Arrows</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">29.</span>
-                <span class="track-name">Always On The Run</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Always On The Run" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Always On The Run</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">30.</span>
-                <span class="track-name">Wake Me Up</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Wake Me Up" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Wake Me Up</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">31.</span>
-                <span class="track-name">Tough Love</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Tough Love" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Tough Love</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Nadia Ali Rapture Avicii">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">32.</span>
-                <span class="track-name">Rapture</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231e1b4b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23312e81%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EREMIX%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Rapture" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Rapture</span>
+                    <span class="album-name">Remix (2010)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Otto Knows Avicii Back Where I Belong">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">33.</span>
-                <span class="track-name">Back Where I Belong</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Back Where I Belong" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Back Where I Belong</span>
+                    <span class="album-name">Singel (2016)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii X You">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">34.</span>
-                <span class="track-name">X You</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="X You" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">X You</span>
+                    <span class="album-name">Singel (2013)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Last Dance">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">35.</span>
-                <span class="track-name">Last Dance</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Last Dance" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Last Dance</span>
+                    <span class="album-name">Singel (2012)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">36.</span>
-                <span class="track-name">Fades Away</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Fades Away" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Fades Away</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories Gonna Love Ya">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">37.</span>
-                <span class="track-name">Gonna Love You</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Gonna Love You" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Gonna Love You</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii The Days">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">38.</span>
-                <span class="track-name">The Days</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230f172a%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23334155%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2338bdf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2338bdf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ENIGHTS%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="The Days" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">The Days</span>
+                    <span class="album-name">The Days / Nights</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">39.</span>
-                <span class="track-name">Addicted To You</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Addicted To You" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Addicted To You</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">40.</span>
-                <span class="track-name">Somewhere In Stockholm</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Somewhere In Stockholm" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Somewhere In Stockholm</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">41.</span>
-                <span class="track-name">Can't Catch Me</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Can't Catch Me" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Can't Catch Me</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">42.</span>
-                <span class="track-name">Pure Grinding</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Pure Grinding" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Pure Grinding</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Lonely Together">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">43.</span>
-                <span class="track-name">Lonely Together</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231d3557%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23457b9d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EAV%C4%AACI%2001%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Lonely Together" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Lonely Together</span>
+                    <span class="album-name">Avīci (01)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">44.</span>
-                <span class="track-name">Heaven</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Heaven" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Heaven</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii You Be Love">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">45.</span>
-                <span class="track-name">You Be Love</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231d3557%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23457b9d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EAV%C4%AACI%2001%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="You Be Love" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">You Be Love</span>
+                    <span class="album-name">Avīci (01)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii SOS">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">46.</span>
-                <span class="track-name">SOS</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="SOS" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">SOS</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Wyclef Jean Avicii Divine Sorrow">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">47.</span>
-                <span class="track-name">Divine Sorrow</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Divine Sorrow" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Divine Sorrow</span>
+                    <span class="album-name">Singel (2014)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Kygo Avicii Sandro Cavazza Forever Yours">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">48.</span>
-                <span class="track-name">Forever Yours</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Forever Yours" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Forever Yours</span>
+                    <span class="album-name">Singel (2020)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item" draggable="true">
+            <li class="list-group-item" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">49.</span>
-                <span class="track-name">Talk To Myself</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Talk To Myself" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Talk To Myself</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item cutoff-line" draggable="true">
+            <li class="list-group-item cutoff-line" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">50.</span>
-                <span class="track-name">Liar Liar</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Liar Liar" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Liar Liar</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Lay Me Down</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Lay Me Down" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Lay Me Down</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">EDOM</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="EDOM" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">EDOM</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii So Much Better">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">So Much Better</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231d3557%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23457b9d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EAV%C4%AACI%2001%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="So Much Better" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">So Much Better</span>
+                    <span class="album-name">Avīci (01)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Feeling Good">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Feeling Good</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Feeling Good" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Feeling Good</span>
+                    <span class="album-name">Singel (2015)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Conrad Sewell Taste The Feeling">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Taste The Feeling</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Taste The Feeling" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Taste The Feeling</span>
+                    <span class="album-name">Singel (2016)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Speed">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Speed</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Speed" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Speed</span>
+                    <span class="album-name">Singel (2013)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Bad Reputation</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Bad Reputation" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Bad Reputation</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Elle King Let's Ride Away">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Let's Ride Away</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23064e3b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23047857%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%2334d399%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESINGLE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Let's Ride Away" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Let's Ride Away</span>
+                    <span class="album-name">Avicii Forever (2025)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Peace Of Mind</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Peace Of Mind" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Peace Of Mind</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Friend Of Mine">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Friend Of Mine</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231d3557%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23457b9d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EAV%C4%AACI%2001%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Friend Of Mine" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Friend Of Mine</span>
+                    <span class="album-name">Avīci (01)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Trouble</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Trouble" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Trouble</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Touch Me</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Touch Me" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Touch Me</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Stories">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Ten More Days</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232b0938%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23b5179e%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23ffb703%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ESTORIES%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Ten More Days" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Ten More Days</span>
+                    <span class="album-name">Stories</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Hope There's Someone</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Hope There's Someone" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Hope There's Someone</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Heart Upon My Sleeve</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Heart Upon My Sleeve" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Heart Upon My Sleeve</span>
+                    <span class="album-name">True / Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Canyons</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Canyons" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Canyons</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Hold The Line</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Hold The Line" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Hold The Line</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Ain't A Thing</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Ain't A Thing" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Ain't A Thing</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Freak</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Freak" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Freak</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Excuse Me Mr Sir</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Excuse Me Mr Sir" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Excuse Me Mr Sir</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii What Would I Change It To">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">What Would I Change It To</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231d3557%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23457b9d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23a8dadc%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EAV%C4%AACI%2001%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="What Would I Change It To" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">What Would I Change It To</span>
+                    <span class="album-name">Avīci (01)</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii True">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Long Road To Hell</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230b132b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231c2541%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23e5b95f%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETRUE%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Long Road To Hell" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Long Road To Hell</span>
+                    <span class="album-name">True</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Avicii Tim">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Never Leave Me</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231a1a1d%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23333533%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23f5cb5c%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3ETIM%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Never Leave Me" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Never Leave Me</span>
+                    <span class="album-name">Tim</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Daft Punk Derezzed Avicii">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Derezzed</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231e1b4b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23312e81%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EREMIX%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Derezzed" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Derezzed</span>
+                    <span class="album-name">TRON: Legacy Reconfigured</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
                 </div>
             </li>
-            <li class="list-group-item outside-poster" draggable="true">
+            <li class="list-group-item outside-poster" draggable="true" data-query="Faithless Insomnia Avicii">
                 <span class="drag-handle" title="Dra för att flytta">☰</span>
                 <span class="rank-number">–</span>
-                <span class="track-name">Insomnia 2.0</span>
+                <img class="album-cover" src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231e1b4b%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23312e81%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2212%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2246%2C24%2022%2C58%2046%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%2254%2C24%2078%2C24%2054%2C58%22%20fill%3D%22%23818cf8%22%20opacity%3D%220.92%22/%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20x%3D%2250%22%20y%3D%2282%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22bold%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%221%22%3EREMIX%3C/text%3E%0A%20%20%20%20%3C/svg%3E" alt="Insomnia 2.0" loading="lazy">
+                <div class="track-info">
+                    <span class="track-name">Insomnia 2.0</span>
+                    <span class="album-name">Faithless 2.0</span>
+                </div>
                 <div class="move-btns">
                     <button type="button" class="move-btn" onclick="moveItem(this, -1)" title="Flytta upp">▲</button>
                     <button type="button" class="move-btn" onclick="moveItem(this, 1)" title="Flytta ner">▼</button>
@@ -968,7 +1294,51 @@
             }
         }
 
-        // 4. Spara som textfil
+        // 4. Hämta officiella albumbilder automatiskt via Apple iTunes Search API (med inbyggd cache)
+        async function fetchAlbumCovers() {
+            var items = Array.from(listEl.getElementsByTagName('li'));
+            var cache = {};
+            try {
+                var saved = localStorage.getItem('avicii_cover_cache_v1');
+                if (saved) cache = JSON.parse(saved);
+            } catch (e) {}
+
+            for (var i = 0; i < items.length; i++) {
+                var li = items[i];
+                var query = li.getAttribute('data-query');
+                var img = li.querySelector('.album-cover');
+                if (!query || !img) continue;
+
+                if (cache[query]) {
+                    img.src = cache[query];
+                    continue;
+                }
+
+                try {
+                    var resp = await fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(query) + '&entity=song&limit=1');
+                    if (resp.ok) {
+                        var data = await resp.json();
+                        if (data.results && data.results.length > 0 && data.results[0].artworkUrl100) {
+                            var hiRes = data.results[0].artworkUrl100.replace('100x100bb', '200x200bb');
+                            img.src = hiRes;
+                            cache[query] = hiRes;
+                            try {
+                                localStorage.setItem('avicii_cover_cache_v1', JSON.stringify(cache));
+                            } catch (e) {}
+                        }
+                    }
+                    // Kort paus så vi inte slår i API-gränsen
+                    await new Promise(function(r) { setTimeout(r, 120); });
+                } catch (err) {
+                    // Behåll den inbyggda SVG-albumbilden om man är offline
+                }
+            }
+        }
+
+        // Starta hämtning av skivomslag i bakgrunden
+        fetchAlbumCovers();
+
+        // 5. Spara som textfil
         function exportText() {
             var items = listEl.getElementsByTagName('li');
             var out = "AVICII - MIN RANKING (TOPP 50):\n\n";
@@ -982,7 +1352,7 @@
             a.click();
         }
 
-        // 5. Skapa postern för Topp 50
+        // 6. Skapa postern för Topp 50
         function generatePoster() {
             var canvas = document.getElementById('posterCanvas');
             var ctx = canvas.getContext('2d');
