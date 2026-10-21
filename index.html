@@ -77,40 +77,43 @@
         }
         .actions-bar {
             display: flex;
-            gap: 10px;
+            gap: 16px;
             justify-content: space-between;
             align-items: center;
-            margin: -26px auto 28px auto;
+            margin: -28px auto 28px auto;
             position: sticky;
             top: 16px;
             z-index: 100;
-            background: rgba(18, 18, 21, 0.88);
-            padding: 10px 16px;
+            background: rgba(18, 18, 21, 0.92);
+            padding: 12px 18px;
             border-radius: 10px;
             border: 1px solid #27272a;
             backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
         }
-        .actions-left {
-            font-size: 0.82rem;
-            color: #a1a1aa;
-            padding-left: 6px;
-            display: none;
-        }
-        @media (min-width: 560px) {
-            .actions-left {
-                display: block;
-            }
-        }
-        .actions-right {
+        .actions-info {
             display: flex;
-            gap: 8px;
-            width: 100%;
-            justify-content: flex-end;
+            flex-direction: column;
+            gap: 2px;
         }
-        @media (max-width: 559px) {
-            .actions-right {
-                justify-content: center;
+        .actions-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #f4f4f5;
+        }
+        .actions-sub {
+            font-size: 0.78rem;
+            color: #a1a1aa;
+        }
+        @media (max-width: 600px) {
+            .actions-bar {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+                padding: 14px;
+            }
+            .btn-poster {
+                width: 100%;
             }
         }
         button.btn, a.btn {
@@ -328,17 +331,17 @@
                 <polygon points="54,4 92,4 54,52" fill="#ffffff"/>
             </svg>
             <h1>Rank your 50 favorite Avicii songs</h1>
-            <p class="instructions">Drag and drop the tracks or use the arrows to build your personal list. Your top 50 songs will be featured on your custom poster.</p>
+            <p class="instructions">Drag and drop the tracks (or use the arrows) to order your list. When you're done, click the button below to create a shareable poster image featuring your Top 50 songs.</p>
         </div>
     </header>
 
     <div class="container">
         <div class="actions-bar">
-            <span class="actions-left">75 tracks in pool • Top 50 on poster</span>
-            <div class="actions-right">
-                <button class="btn btn-dark" onclick="exportText()">Export .TXT</button>
-                <button class="btn btn-gold" onclick="generatePoster()">Generate Poster</button>
+            <div class="actions-info">
+                <span class="actions-title">Done ordering your Top 50?</span>
+                <span class="actions-sub">Creates a high-resolution poster image of songs #1–50 to download &amp; share</span>
             </div>
+            <button class="btn btn-gold btn-poster" onclick="generatePoster()">Create My Top 50 Poster</button>
         </div>
         
         <ul id="rankList" class="list-group">
@@ -1442,19 +1445,7 @@
 
         fetchAlbumCovers();
 
-        // 5. Spara som textfil
-        function exportText() {
-            var items = listEl.getElementsByTagName('li');
-            var out = "AVICII - MY RANKING (TOP 50):\n\n";
-            for (var i = 0; i < Math.min(50, items.length); i++) {
-                out += (i + 1) + ". " + items[i].getElementsByClassName('track-name')[0].innerText + "\n";
-            }
-            var blob = new Blob([out], { type: "text/plain;charset=utf-8" });
-            var a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "avicii_top_50.txt";
-            a.click();
-        }
+
 
         // 6. Skapa postern för Topp 50
         function generatePoster() {
